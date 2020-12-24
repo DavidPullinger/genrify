@@ -1,0 +1,18 @@
+.App {
+  text-align: center;
+}
+/*  NAVIGATION  STYLING   */
+nav{
+  text-align: left;
+  border-bottom: black 4px solid;
+}
+ul{
+  display: inline-flex;
+  width: 20%
+}
+li{
+  width: 33%
+}
+a{
+  text-decoration: none !important;
+}

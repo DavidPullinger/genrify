@@ -1,0 +1,16 @@
+.homeContainer {
+    padding-left: 20px;
+}
+
+.playlistHeading {
+    text-align: left
+}
+
+.playlistContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
