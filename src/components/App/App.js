@@ -1,22 +1,18 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
 } from 'react-router-dom';
+import * as SpotifyController from '../../controllers/SpotifyController';
 import Home from './Home/Home';
 import Help from './Help/Help';
 import About from './About/About';
 
 function App() {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  useEffect(() => {
-    if (localStorage.getItem('login')) {
-      setIsSignedIn(true)
-    }
-  }, [])
+  const [isSignedIn, setIsSignedIn] = useState(localStorage.getItem('access_token') !== null);
 
   return (
     <div className='App'>
@@ -28,6 +24,9 @@ function App() {
           </Route>
           <Route path='/help'>
             <Help />
+          </Route>
+          <Route path='/callback'>
+            <Callback/>
           </Route>
           <Route path='/'>
             <Home isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />
@@ -41,6 +40,7 @@ function App() {
 function Navigation(props) {
   const handleSignOut = () => {
     localStorage.clear();
+    sessionStorage.clear();
     props.setIsSignedIn(false);
   }
 
@@ -66,6 +66,16 @@ function Navigation(props) {
       </ul>
     </nav>
   )
+}
+
+function Callback(props) {
+  useEffect(() => {
+    SpotifyController.getHashParams();
+    window.opener.location.reload();
+    window.close();
+  })
+
+  return null;
 }
 
 export default App;

@@ -1,6 +1,3 @@
-.App {
-  text-align: center;
-}
 /*  NAVIGATION  STYLING   */
 nav{
   text-align: left;
@@ -15,4 +12,5 @@ li{
 }
 a{
   text-decoration: none !important;
+  color: #F5F5F5;
 }

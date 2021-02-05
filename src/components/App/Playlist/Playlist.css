@@ -1,0 +1,24 @@
+.playlist {
+    padding: 1rem;
+    margin: auto;
+}
+
+.imageContainer {
+    margin: auto;
+    display: flex;
+    overflow: hidden;
+    border-radius: 2%;
+}
+
+img {
+    max-width: 100%;
+    transition: .3s ease;
+    margin: auto;
+}
+
+img:hover {
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    cursor: pointer;
+}
