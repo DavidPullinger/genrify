@@ -1,15 +1,16 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link,
 } from 'react-router-dom';
-import * as SpotifyController from '../../controllers/SpotifyController';
+import * as SpotifyController from '../controllers/SpotifyController';
 import Home from './Home/Home';
 import Help from './Help/Help';
 import About from './About/About';
+
 
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(localStorage.getItem('access_token') !== null);
@@ -26,7 +27,7 @@ function App() {
             <Help />
           </Route>
           <Route path='/callback'>
-            <Callback/>
+            <Callback />
           </Route>
           <Route path='/'>
             <Home isSignedIn={isSignedIn} setIsSignedIn={setIsSignedIn} />

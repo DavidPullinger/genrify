@@ -1,6 +1,6 @@
 import './Playlist.css';
-import { useState } from 'react';
-import { getAllTracks } from '../../../controllers/PlaylistController.js';
+import { React, useState } from 'react';
+import { getAllTracks } from '../../controllers/PlaylistController.js';
 
 function Playlist(props) {
     const [songs, setSongs] = useState([]);

@@ -1,7 +1,7 @@
 import './Home.css';
 import Playlist from '../Playlist/Playlist.js';
-import { useAPIData } from '../../../controllers/GridController.js';
-import { useState } from 'react';
+import { useAPIData } from '../../controllers/GridController.js';
+import { React, useState } from 'react';
 
 // centered pop up window
 const popupWindow = (url, windowName, win, w, h) => {
