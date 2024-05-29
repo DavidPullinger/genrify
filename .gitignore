@@ -1,7 +1,5 @@
-# Misc
 .DS_Store
-
-# Frontend
+.env
 logs
 *.log
 npm-debug.log*
