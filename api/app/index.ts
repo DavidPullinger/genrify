@@ -17,11 +17,15 @@ declare module "express-session" {
 const app = express();
 app.use(
     session({
-        secret: "afasfas",
+        secret: process.env.SESSION_SECRET!,
         name: "genrify_session_id",
-        store: new (FileStore(session))(),
+        store: new (FileStore(session))({ retries: 0 }),
         resave: false,
         saveUninitialized: false,
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+        },
+        rolling: true,
     })
 ).use(
     cors({
