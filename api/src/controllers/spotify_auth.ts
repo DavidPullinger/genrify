@@ -1,54 +1,9 @@
 import querystring from "querystring";
 import express from "express";
-import session from "express-session";
-import cors from "cors";
-import FileStore from "session-file-store";
-import "dotenv/config";
-import { generateRandomString } from "./utils";
+import { generateRandomString } from "../utils";
+const router = express.Router();
 
-declare module "express-session" {
-    interface SessionData {
-        spotify_auth_state: string;
-        spotify_auth_token: string;
-        spotify_refresh_token: string;
-    }
-}
-
-const app = express();
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET!,
-        name: "genrify_session_id",
-        store: new (FileStore(session))({ retries: 0 }),
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-        },
-        rolling: true,
-    })
-).use(
-    cors({
-        origin: "http://localhost:5173",
-        credentials: true,
-    })
-);
-
-app.get("/user/playlists", (req, res) => {
-    if (!req.session.spotify_auth_token) {
-        return res.sendStatus(401);
-    }
-
-    fetch("https://api.spotify.com/v1/me/playlists", {
-        headers: {
-            Authorization: "Bearer " + req.session.spotify_auth_token,
-        },
-    })
-        .then((response) => response.json())
-        .then((data) => res.json(data));
-});
-
-app.get("/auth/login", (req, res) => {
+router.get("/auth/login", (req, res) => {
     let scopes = [
         "user-library-read",
         "playlist-read-private",
@@ -71,7 +26,7 @@ app.get("/auth/login", (req, res) => {
     );
 });
 
-app.get("/auth/callback", (req, res) => {
+router.get("/auth/callback", (req, res) => {
     // do some sanity checks
     if (req.query.error) {
         req.session.spotify_auth_state = "";
@@ -113,6 +68,4 @@ app.get("/auth/callback", (req, res) => {
         });
 });
 
-app.listen(3000, () => {
-    console.log("Server is running on port 3000");
-});
+export default router;
