@@ -2,9 +2,8 @@ import querystring from 'querystring';
 import express from 'express';
 import { generateRandomString } from '../utils';
 import SpotifyAPIService from '../services/spotify_api';
-const router = express.Router();
 
-router.get('/auth/login', (req, res) => {
+function login(req: express.Request, res: express.Response) {
     let scopes = [
         'user-library-read',
         'playlist-read-private',
@@ -23,11 +22,11 @@ router.get('/auth/login', (req, res) => {
                 redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
                 state: state,
                 show_dialog: true,
-            }),
+            })
     );
-});
+}
 
-router.get('/auth/callback', (req, res) => {
+function callback(req: express.Request, res: express.Response) {
     // do some sanity checks
     if (req.query.error || !req.query.state || req.query.state !== req.session.spotify_auth_state) {
         req.session.spotify_auth_state = '';
@@ -40,6 +39,6 @@ router.get('/auth/callback', (req, res) => {
         req.session.spotify_refresh_token = data.refresh_token;
         res.redirect('http://localhost:5173');
     });
-});
+}
 
-export default router;
+export default { login, callback };

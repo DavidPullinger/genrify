@@ -1,8 +1,7 @@
 import express from 'express';
 import SpotifyAPIService from '../services/spotify_api';
-const router = express.Router();
 
-router.get('/user/playlists', async (req, res) => {
+function fetch_playlists(req: express.Request, res: express.Response) {
     if (!req.session.spotify_access_token || !req.session.spotify_refresh_token) {
         console.info('No Spotify tokens found in session');
         return res.sendStatus(401);
@@ -13,7 +12,7 @@ router.get('/user/playlists', async (req, res) => {
             req.session.spotify_access_token,
             req.session.spotify_refresh_token,
             'me/playlists',
-            null,
+            null
         )
         .then((data) => {
             if (data.tokens) {
@@ -27,6 +26,6 @@ router.get('/user/playlists', async (req, res) => {
             console.error(error);
             res.sendStatus(error.message === 'Unauthorized' ? 401 : 500);
         });
-});
+}
 
-export default router;
+export default { fetch_playlists };
