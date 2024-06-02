@@ -5,7 +5,7 @@ import FileStore from "session-file-store";
 declare module "express-session" {
     interface SessionData {
         spotify_auth_state: string;
-        spotify_auth_token: string;
+        spotify_access_token: string;
         spotify_refresh_token: string;
     }
 }

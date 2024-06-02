@@ -1,6 +1,7 @@
 import querystring from "querystring";
 import express from "express";
 import { generateRandomString } from "../utils";
+import SpotifyAPIService from "../services/spotify_api";
 const router = express.Router();
 
 router.get("/auth/login", (req, res) => {
@@ -28,41 +29,20 @@ router.get("/auth/login", (req, res) => {
 
 router.get("/auth/callback", (req, res) => {
     // do some sanity checks
-    if (req.query.error) {
-        req.session.spotify_auth_state = "";
-        return res.send("Callback error: " + req.query.error);
-    }
     if (
+        req.query.error ||
         !req.query.state ||
         req.query.state !== req.session.spotify_auth_state
     ) {
         req.session.spotify_auth_state = "";
-        return res.send("State mismatch");
+        return res.send("Error. Invalid state or error from Spotify");
     }
     req.session.spotify_auth_state = "";
 
-    // exchange code for token
-    fetch("https://accounts.spotify.com/api/token", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization:
-                "Basic " +
-                Buffer.from(
-                    process.env.SPOTIFY_CLIENT_ID +
-                        ":" +
-                        process.env.SPOTIFY_CLIENT_SECRET
-                ).toString("base64"),
-        },
-        body: querystring.stringify({
-            grant_type: "authorization_code",
-            code: req.query.code as string,
-            redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
-        }),
-    })
-        .then((response) => response.json())
+    new SpotifyAPIService()
+        .fetch_access_token(req.query.code as string)
         .then((data) => {
-            req.session.spotify_auth_token = data.access_token;
+            req.session.spotify_access_token = data.access_token;
             req.session.spotify_refresh_token = data.refresh_token;
             res.redirect("http://localhost:5173");
         });
