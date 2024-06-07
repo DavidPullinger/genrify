@@ -20,7 +20,7 @@ function fetch_playlists(req: express.Request, res: express.Response) {
                 req.session.spotify_access_token = data.tokens.access_token;
                 req.session.spotify_refresh_token = data.tokens.refresh_token;
             }
-            res.json(data.content);
+            res.json(data.content.items);
         })
         .catch((error: Error) => {
             console.error(error);

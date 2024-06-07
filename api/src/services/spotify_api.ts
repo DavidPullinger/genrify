@@ -10,7 +10,7 @@ export default class SpotifyAPIService {
         Authorization:
             'Basic ' +
             Buffer.from(
-                process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET,
+                process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
             ).toString('base64'),
     };
 
@@ -54,14 +54,15 @@ export default class SpotifyAPIService {
         access_token: string,
         refresh_token: string,
         uri: string,
-        options: any,
+        body?: any,
+        fields?: string[]
     ): Promise<content> {
-        console.info('fetching content. refresh attempts: ', this.refresh_attempts);
-        const response = await fetch('https://api.spotify.com/v1/' + uri, {
+        const url = 'https://api.spotify.com/v1/' + uri + (fields ? '?' + fields.join('&') : '');
+        const response = await fetch(url, {
             headers: {
                 Authorization: 'Bearer ' + access_token,
             },
-            body: options ? JSON.stringify(options) : null,
+            body: body ? JSON.stringify(body) : null,
         });
         const response_json = await response.json();
 
@@ -73,12 +74,7 @@ export default class SpotifyAPIService {
                     }
 
                     const tokens = await this.refresh_access_token(refresh_token);
-                    return this.fetch_content(
-                        tokens.access_token,
-                        tokens.refresh_token,
-                        uri,
-                        options,
-                    );
+                    return this.fetch_content(tokens.access_token, tokens.refresh_token, uri, body);
                 default:
                     throw new Error('Unauthorized');
             }
