@@ -9,9 +9,9 @@ function App() {
 
     return (
         <LoginContext.Provider value={{ loggedIn, setLoggedIn }}>
-            <div className="flex flex-col gap-4">
-                <nav className="flex justify-between items-center mb-2">
-                    <h1 className="font-semibold text-5xl">Genrify</h1>
+            <div className="flex flex-col gap-8 p-6 sm:p-12">
+                <nav className="flex justify-between items-center">
+                    <h1 className="font-semibold uppercase text-xl">Genrify</h1>
                 </nav>
 
                 {loggedIn ? (

@@ -9,7 +9,10 @@ export default {
         accent: 'var(--color-accent)',
         text: 'var(--color-text)',
         spotify: 'var(--color-spotify)',
-      }
+      },
+      screens: {
+        sm: '540px',
+      },
     },
   },
   plugins: [],

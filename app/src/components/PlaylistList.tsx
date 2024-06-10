@@ -1,10 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
-import PlaylistItem, { Playlist } from './PlaylistItem';
+import PlaylistSummaryItem from './PlaylistSummaryItem';
 import fetch from '../utils/fetch';
 import { LoginContext } from '../providers/LoginProvider';
+import { Playlist } from '../types';
+import PlaylistDetailedItem from './PlaylistDetailedItem';
 
 export default function PlaylistList() {
     const [playlists, setPlaylists] = useState<Playlist[] | null>(null);
+    const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
     const { setLoggedIn } = useContext(LoginContext);
 
     useEffect(() => {
@@ -22,14 +25,26 @@ export default function PlaylistList() {
     }, []);
 
     return playlists ? (
-        <div className="grid gap-5 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-            {playlists.map((playlist) => (
-                <PlaylistItem key={playlist.name} playlist={playlist} />
-            ))}
-        </div>
+        selectedPlaylist ? (
+            <PlaylistDetailedItem
+                playlist={selectedPlaylist}
+                setSelectedPlaylist={setSelectedPlaylist} // used to add tracks to playlist
+                goBack={() => setSelectedPlaylist(null)}
+            />
+        ) : (
+            <div className="flex flex-col items-center gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+                {playlists.map((playlist) => (
+                    <PlaylistSummaryItem
+                        key={playlist.name}
+                        playlist={playlist}
+                        setSelectedPlaylist={setSelectedPlaylist}
+                    />
+                ))}
+            </div>
+        )
     ) : (
         <div className="h-[50vh] flex items-center justify-center">
-            <p className='text-xl'>Loading...</p>
+            <p className="text-xl">Loading...</p>
         </div>
     );
 }

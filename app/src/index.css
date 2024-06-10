@@ -13,7 +13,6 @@
 
 #root {
     min-height: 100vh;
-    padding: 50px;
     background: var(--color-primary);
     color: var(--color-text);
     font-family: 'Poppins', sans-serif;
@@ -21,7 +20,7 @@
     font-style: normal;
 }
 
-#root * {
+#root *:not(svg):not(path) {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke,
         opacity, box-shadow, transform, filter, backdrop-filter;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
