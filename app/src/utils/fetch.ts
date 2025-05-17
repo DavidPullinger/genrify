@@ -6,6 +6,7 @@ export default async function _fetch(uri: string) {
 
 		return response.ok && response.json();
 	} catch (error: any) {
+		console.error(error);
 		throw new Error(error);
 	}
 }

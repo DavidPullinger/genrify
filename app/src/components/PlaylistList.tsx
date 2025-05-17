@@ -1,14 +1,14 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PlaylistSummaryItem from './PlaylistSummaryItem';
 import fetch from '../utils/fetch';
-import { LoginContext } from '../providers/LoginProvider';
+import { useLogin } from '../providers/LoginProvider';
 import { Playlist } from '../types';
 import PlaylistDetailedItem from './PlaylistDetailedItem';
 
 export default function PlaylistList() {
     const [playlists, setPlaylists] = useState<Playlist[] | null>(null);
     const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(null);
-    const { setLoggedIn } = useContext(LoginContext);
+    const { setLoggedIn } = useLogin();
 
     useEffect(() => {
         fetch('/user/playlists')

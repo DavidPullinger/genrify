@@ -28,19 +28,25 @@ export default function PlaylistDetailedItem({
             </div>
             <div className="flex flex-col sm:flex-row justify-between items-center gap-10">
                 <div className="flex flex-grow items-center gap-8 w-full">
-                    <img className="rounded shadow-lg w-20 sm:w-52 lazyload" data-src={playlist.images[0].url} alt={playlist.name} />
+                    <img
+                        className="rounded shadow-lg w-20 sm:w-52 lazyload"
+                        data-src={playlist.images[0].url}
+                        alt={playlist.name}
+                    />
                     <div className="flex flex-col gap-2">
                         <p className="text-2xl sm:text-6xl font-bold">{playlist.name}</p>
                         <p className="ml-1">{playlist.tracks.total} songs</p>
                     </div>
                 </div>
-                <button className="w-full sm:w-auto border-solid border-2 py-2 px-4 rounded-full hover:scale-105">Genrify</button>
+                <button className="w-full sm:w-auto border-solid border-2 py-2 px-4 rounded-full hover:scale-105">
+                    Genrify
+                </button>
             </div>
             {playlist.tracks.items ? (
                 <div className="flex flex-col gap-4 mt-2">
                     {playlist.tracks.items.map((track, index) => (
-                        <div key={track.track.id} className='flex items-center gap-4'>
-                            <p className='font-semibold'>{index + 1}</p>
+                        <div key={track.track.id} className="flex items-center gap-4">
+                            <p className="font-semibold">{index + 1}</p>
                             <TrackItem track={track.track} />
                         </div>
                     ))}
